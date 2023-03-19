@@ -1,5 +1,15 @@
 {
+  "name": "server-two-package",
+  "version": "0.0.1",
+  "description": "--",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "pug": "^3.0.2"
   }
 }
