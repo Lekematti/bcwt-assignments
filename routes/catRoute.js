@@ -1,14 +1,15 @@
 'use strict';
-
+const multer = require('multer')
 const express = require('express');
 const router = express.Router();
 const catController = require('../controllers/catController')
 
+const upload = multer({dest: 'uploads/'})
 
 router.get('/:catId',catController.getCat)
 router.get('/', catController.getCatList)
 
-router.post('/',catController.postCat)
+router.post('/',upload.single('cat'),catController.postCat)
 router.get('/',catController.putCat)
 router.delete('/',catController.deleteCat)
 

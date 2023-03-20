@@ -1,7 +1,7 @@
 // catController
 'use strict';
-const catModel = require('../models/catModel');
 
+const catModel = require('../models/catModel');
 const cats = catModel.cats
 
 const getCatList = (req, res) => {
@@ -20,8 +20,8 @@ const getCat = (req, res) => {
 }
 
 const postCat = (req, res) => {
-    const createCat = req.params.cats
-    res.json(createCat);
+    console.log('posting cat', req.body, req.file)
+    res.send('')
 }
 
 const putCat = (reg, res) => {
