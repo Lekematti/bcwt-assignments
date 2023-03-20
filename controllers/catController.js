@@ -10,12 +10,30 @@ const getCatList = (req, res) => {
 
 const getCat = (req, res) => {
     const id = req.params.catId;
-    // TODO: filter maching cat based on id
-    // TODO: response 404vif id not found in array (res.status(404))
-    const cat = cats(0)
-    res.json(cat);
+    const filteredCats = cats.find(cat => cat.id === id);
+    //const filteredCats2 = cats.filter(cat => id == cat.id); //other way of filtering
+    if (!filteredCats){
+        res.status(404).send('cat not found')
+        return;
+    }
+    res.json(filteredCats);
 }
 
-const catController = {getCatList, getCat}
+const postCat = (req, res) => {
+    const createCat = req.params.cats
+    res.json(createCat);
+}
+
+const putCat = (reg, res) => {
+
+    res.json()
+}
+
+const deleteCat = (reg, res) => {
+
+    res.json()
+}
+
+const catController = {getCatList, getCat, postCat, putCat, deleteCat}
 module.exports = catController;
 
