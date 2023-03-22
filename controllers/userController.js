@@ -23,18 +23,17 @@ const getUser = (req, res) => {
 }
 
 const postUser = (req, res) => {
-    console.log(req.body);
-    const newUser = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    }
-    console.log(req.body.name)
+    console.log('req body: ', req.body);
+    const newUser =
+        {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.passwd
+        };
     users.push(newUser);
-    res.status(201).send('added user' + req.body.name);
-    //const createUsers = req.params.users
-    //res.json(createUsers);
-}
+    res.status(201).send('Added user ' + req.body.name);
+};
+
 
 const putUser = (req, res) => {
 
