@@ -46,6 +46,7 @@ node_modules/
 jspm_packages/
 uploads/*
 !uploads/.gitkeep
+.env
 
 # TypeScript v1 declaration files
 typings/
