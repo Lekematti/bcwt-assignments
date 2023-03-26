@@ -2,47 +2,73 @@
 'use strict';
 const userModel = require('../models/userModel');
 
-const users = userModel.users
-
-for (const user of users){
+// TODO: add DB connection and functions to userModel
+const users = userModel.users;
+// remove passwords
+for (const user of users) {
     delete user.password;
 }
-const getUserList = (req, res) => {
-    res.json(users);
+
+const getUserList =  async (req, res) => {
+    try{
+        const users = await userModel.getAllUsers();
+        res.json(users);
+    }
+    catch (error){
+        res.status(500).json({error: 500, message: error.message})
+    }
 }
 
-const getUser = (req, res) => {
-    const id = req.params.userId;
-    const filteredUsers = users.find(user => user.id === id);
-    //const filteredUsers2 = users.filter(uses => id == user.id); //other way of filtering
-    if (!filteredUsers){
-        res.status(404).send('user not found')
+const getUser = async (req, res) => {
+    //convert id value to number
+    const userId = Number(req.params.userId);
+    //check if a number is not an integer
+    if(Number.isInteger(userId)) {
+        res.status(400).json({error: 500, message: 'invalid id'})
         return;
     }
-    res.json(filteredUsers);
+    try {
+        const [user] = await catModel.getCatById(userId)
+        console.log('getUser', user);
+        res.json(user);
+    }
+   catch (error){
+       res.status(404).send('user not found');
+   }
 }
 
-const postUser = (req, res) => {
-    console.log('req body: ', req.body);
-    const newUser =
-        {
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.passwd
-        };
-    users.push(newUser);
-    res.status(201).send('Added user ' + req.body.name);
+const postUser = async (req, res) => {
+    console.log('posting a user', req.body);
+    // add cat details to cats array
+    const newUser = req.body;
+    const result = await userModel.insertUser(newUser)
+    // send correct response if upload successful
+    res.status(201).send('new user added!');
 };
 
-
-const putUser = (req, res) => {
-
-    res.json()
+const putUser = async (reg, res) => {
+    console.log('modify a user', req.body);
+    try {
+        const user = req.body;
+        const result = await userModel.modifyUser(user)
+        // send correct response if upload successful
+        res.status(200).send('user modified');
+    }
+    catch (error){
+        res.status(400).json({error: 500, message: 'user modifying failed'})
+    }
 }
 
-const deleteUser = (req, res) => {
-
-    res.json()
+const deleteUser = async (reg, res) => {
+    console.log('delete a cat', req.params.userId);
+    try {
+        const result = await catModel.deleteCat(req.params.userId)
+        // send correct response if upload successful
+        res.status(200).send('cat deleted');
+    }
+    catch (error){
+        res.status(400).json({error: 500, message: 'user deletion failed'})
+    }
 }
 
 const userController = {getUserList, getUser, postUser, putUser, deleteUser}

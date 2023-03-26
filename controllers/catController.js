@@ -55,14 +55,13 @@ const putCat = async (reg, res) => {
     res.status(200).send('cat modified');
 }
 
-const deleteCat = async (reg, res) => {
-    console.log('delete a cat', req.params.catId);
-    //TODO: ADD try catch
-    const cat = req.body;
-    const result = await catModel.deleteCat(req.params.carId)
-    // send correct response if upload successful
-    res.status(200).send('cat deleted');
-}
+const deleteCat = async (req, res) => {
+    console.log('deleting a cat', req.params.catId);
+    // TODO: add try-catch
+    const result = await catModel.deleteCat(req.params.catId);
+    // TODO: send correct json response if delete successful
+    res.status(200).send('cat deleted!');
+};
 
 const catController = {getCatList, getCat, postCat, putCat, deleteCat}
 module.exports = catController;

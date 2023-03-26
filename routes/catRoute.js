@@ -1,4 +1,5 @@
 'use strict';
+
 const multer = require('multer')
 const express = require('express');
 const router = express.Router();
@@ -11,25 +12,5 @@ router.get('/:catId',catController.getCat)
 router.post('/',upload.single('cat'),catController.postCat)
 router.put('/',catController.putCat)
 router.delete('/:catId',catController.deleteCat)
-
-/*router.get("/", (req, res) => {
-    res.send("From this endpoint you can get cats.");
-});*/
-/*router.get("/:catId", (req, res) => {
-    //console.log(req.params)
-    res.send("From this endpoint you can get a cat with id: " + req.params.catId + ".");
-});*/
-
-/*router.post("/", (req, res) => {
-    res.send("With this endpoint you can add cats.");
-});*/
-
-/*router.put("/", (req, res) => {
-    res.send("With this endpoint you can modify cats.");
-});*/
-
-/*router.delete("/", (req, res) => {
-    res.send("With this endpoint you can delete a cat.");
-});*/
 
 module.exports = router;
