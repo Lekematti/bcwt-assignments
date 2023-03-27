@@ -49,9 +49,10 @@ const postCat = async (req, res) => {
     }
 };
 
-const putCat = async (reg, res) => {
+const putCat = async (req, res) => {
+    const cat = req.body;
     try {
-        const cat = req.body;
+
         const result = await catModel.modifyCat(cat)
         // send correct response if upload successful
         res.status(200).json({message: 'cat modified'});
