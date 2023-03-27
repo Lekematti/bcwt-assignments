@@ -3,11 +3,11 @@
 const userModel = require('../models/userModel');
 
 // TODO: add DB connection and functions to userModel
-const users = userModel.users;
+/*const users = userModel.users;
 // remove passwords
 for (const user of users) {
     delete user.password;
-}
+}*/
 
 const getUserList =  async (req, res) => {
     try{
@@ -33,7 +33,7 @@ const getUser = async (req, res) => {
         res.json(user);
     }
    catch (error){
-       res.status(404).send('user not found');
+       res.status(404).json({message: 'user not found'});
    }
 }
 
@@ -44,7 +44,7 @@ const postUser = async (req, res) => {
         const newUser = req.body;
         const result = await userModel.insertUser(newUser)
         // send correct response if upload successful
-        res.status(201).send('new user added!');
+        res.status(201).json({message: 'new user added'});
     }
     catch (error){
         res.status(400).json({error: 500, message: 'adding new user failed'})
@@ -57,7 +57,7 @@ const putUser = async (reg, res) => {
         const user = req.body;
         const result = await userModel.modifyUser(user)
         // send correct response if upload successful
-        res.status(200).send('user modified');
+        res.status(200).json({message: 'user modified'});
     }
     catch (error){
         res.status(400).json({error: 500, message: 'user modifying failed'})
@@ -69,7 +69,7 @@ const deleteUser = async (reg, res) => {
     try {
         const result = await catModel.deleteCat(req.params.userId)
         // send correct response if upload successful
-        res.status(200).send('cat deleted');
+        res.status(200).json({message: 'user deleted'});
     }
     catch (error){
         res.status(400).json({error: 500, message: 'user deletion failed'})

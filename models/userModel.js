@@ -7,8 +7,7 @@ const promisePool = pool.promise();
 //TODO: update the sql queries to user not cat and some values.
 const getAllUsers = async () => {
   try {
-    const sql = `SELECT wop_user.*, wop_user.name AS username 
-                 FROM wop_cat LEFT JOIN  wop_cat ON wop_cat.owner = wop_user.user_id`;
+    const sql = `SELECT user_id, name, email FROM wop_user`;
     const [rows] = await promisePool.query(sql);
     //console.log(rows);
     return rows;
