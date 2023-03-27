@@ -2,6 +2,7 @@
 'use strict';
 
 const catModel = require('../models/catModel');
+const {validationResult} = require("express-validator");
 
 const getCatList = async (req, res) => {
     try{
@@ -36,23 +37,47 @@ const getCat = async (req, res) => {
 }
 
 const postCat = async (req, res) => {
+    if(!req.file){
+            res.status(400).json({
+                status: 400,
+                message: 'invalid or missing image file'
+            });
+            return;
+    }
+    const validationErrors = validationResult(req);
+    if(!validationErrors.isEmpty()){
+        res.status(400).json({
+            status: 400,
+            errors: validationErrors.array(),
+            message: 'invalid post data'
+        });
+        return;
+    }
+    const newCat = req.body;
+    newCat.filename = req.file.filename;
     try {
         // add cat details to cats array
-        const newCat = req.body;
-        newCat.filename = req.file.filename;
         const result = await catModel.insertCat(newCat)
         // send correct response if upload successful
         res.status(201).json({message: 'new cat added'});
     }
     catch (error){
-        res.status(400).json({error: 500, message: 'adding new cat failed'})
+        res.status(500).json({error: 500, message: 'adding new cat failed'})
     }
 };
 
 const putCat = async (req, res) => {
+    const validationErrors = validationResult(req);
+    if(!validationErrors.isEmpty()){
+        res.status(400).json({
+            status: 400,
+            errors: validationErrors.array(),
+            message: 'invalid put data'
+        });
+        return;
+    }
     const cat = req.body;
     try {
-
         const result = await catModel.modifyCat(cat)
         // send correct response if upload successful
         res.status(200).json({message: 'cat modified'});
