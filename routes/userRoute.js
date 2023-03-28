@@ -3,16 +3,23 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const {body} = require('express-validator')
 
 router.route('/')
     .get(userController.getUserList)
-    .post(userController.postUser)
+    .post(
+        body('name').isAlphanumeric().isLength({min: 1, max: 40}).escape().trim(),
+        body('email').isEmail(),
+        body('passwd').isLength({min: 8}),
+        userController.postUser)
     //.put(userController.putUser)
 // all /cat/:id endpoints
 router.route('/:id')
-    .get(userController.getUser)
+    .get(
+        body('name').isAlphanumeric().isLength({min: 1, max: 40}).escape().trim(),
+        body('email').isEmail(),
+        body('passwd').isLength({min: 8}),
+        userController.getUser)
     //.delete(userController.deleteUser);
-
-//TODO: add validation &
 
 module.exports = router;
