@@ -2,12 +2,6 @@
 'use strict';
 const userModel = require('../models/userModel');
 
-// TODO: add DB connection and functions to userModel
-/*const users = userModel.users;
-// remove passwords
-for (const user of users) {
-    delete user.password;
-}*/
 
 const getUserList =  async (req, res) => {
     try{
