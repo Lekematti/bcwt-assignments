@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS catdb;
+CREATE DATABASE catdb;
+USE catdb;
+
 CREATE TABLE `wop_cat` (
   `cat_id` int(11) NOT NULL,
   `name` text NOT NULL,
