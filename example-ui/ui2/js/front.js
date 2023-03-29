@@ -1,5 +1,5 @@
 'use strict';
-const url = 'http://localhost:3000'; // change url when uploading to server
+const url = 'http://bcwt-server-leke.northeurope.cloudapp.azure.com/app'; // change url when uploading to server
 
 // select existing html elements
 const ul = document.querySelector('#list');
