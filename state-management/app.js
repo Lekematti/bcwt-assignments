@@ -20,7 +20,8 @@ app.get('/setCookie/:color', (req, res) => {
 });
 
 app.get('/getCookie', (req, res) = >{
-  console.log()
+  res.send('Color cookie value:' + req.cookies.color)
+
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
