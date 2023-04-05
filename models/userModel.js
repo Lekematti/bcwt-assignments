@@ -72,7 +72,16 @@ const deleteUser = async (id) => {
     throw new Error('sql delete user failed');
   }
 }*/
-
+const getUserLogin = async (email) => {
+  try {
+    console.log('get user login for',email);
+    const [rows] = await promisePool.execute(
+        'SELECT * FROM wop_user WHERE email = ?;',[email]);
+    return rows;
+  } catch (e) {
+    console.log('error', e.message);
+  }
+};
 
 module.exports = {
   getAllUsers,
@@ -80,4 +89,5 @@ module.exports = {
   insertUser,
   //modifyUser,
   //deleteUser,
+  getUserLogin,
 };

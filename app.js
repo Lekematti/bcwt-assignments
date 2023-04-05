@@ -1,8 +1,10 @@
 'use strict';
 const express = require('express');
-const cors = require('cors')
-const catRoute = require("./routes/catRoute")
-const userRoute = require("./routes/userRoute")
+const cors = require('cors');
+const catRoute = require("./routes/catRoute");
+const userRoute = require("./routes/userRoute");
+const authRoute = require("./routes/authRoute");
+const passPort = require('./utils/passPort');
 const app = express();
 const port = 3000;
 
@@ -23,8 +25,10 @@ app.use(cors());
 // middleware for parsing request body
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(passPort.initialize());
 
 app.use("/cat", catRoute);
 app.use('/user', userRoute)
+app.use('/auth', authRoute)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

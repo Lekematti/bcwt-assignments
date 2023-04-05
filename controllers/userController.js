@@ -42,7 +42,6 @@ const postUser = async (req, res) => {
         res.status(400).json({error: 500, message: 'adding new user failed'})
     }
 };
-
 /*const putUser = async (reg, res) => {
     console.log('modify a user', req.body);
     try {
