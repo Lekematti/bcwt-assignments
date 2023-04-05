@@ -13,6 +13,9 @@ router.route('/')
         body('passwd').isLength({min: 8}),
         userController.postUser)
     //.put(userController.putUser)
+
+router.get("/token", userController.checkToken);
+
 // all /cat/:id endpoints
 router.route('/:id')
     .get(
@@ -22,6 +25,6 @@ router.route('/:id')
         userController.getUser)
     //.delete(userController.deleteUser);
 
-router.get("/token", userController.checkToken);
+
 
 module.exports = router;
