@@ -1,7 +1,11 @@
 "use strict";
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
-const { getUserLogin } = require("../models/userModel");
+const { getUserLogin, getUserById} = require("../models/userModel");
+const passportJWT = require("passport-jwt");
+const JWTStrategy   = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+require('dotenv').config();
 
 // local strategy for username password login
 passport.use(
@@ -25,5 +29,25 @@ passport.use(
 
 // TODO: JWT strategy for handling bearer token
 // consider .env for secret, e.g. secretOrKey: process.env.JWT_SECRET
+
+passport.use(
+    new JWTStrategy(
+        {
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey   : process.env.JWT_SECRET,
+    },
+    async (jwtPayload, done) =>{
+        //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+        console.log('user from token', jwtPayload);
+        try {
+            const user =  await getUserById(jwtPayload.user_id);
+            return done(null, user)
+        }
+        catch(error){
+            return done(err);
+        }
+        //return done()
+    }
+));
 
 module.exports = passport;

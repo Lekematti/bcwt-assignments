@@ -66,7 +66,10 @@ const deleteUser = async (reg, res) => {
         res.status(400).json({error: 500, message: 'user deletion failed'})
     }
 }*/
+const checkToken = (req, res) => {
+    res.json({user: req.user});
+};
 
-const userController = {getUserList, getUser, postUser,} // putUser, deleteUser
+const userController = {getUserList, getUser, postUser,checkToken,} // putUser, deleteUser
 module.exports = userController;
 

@@ -27,8 +27,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(passPort.initialize());
 
-app.use("/cat", catRoute);
-app.use('/user', userRoute)
+app.use("/cat", passPort.authenticate('jwt', {session: false}), catRoute);
+app.use('/user', passPort.authenticate('jwt', {session: false}), userRoute)
 app.use('/auth', authRoute)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
