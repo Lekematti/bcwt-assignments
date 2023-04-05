@@ -44,9 +44,13 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+<<<<<<< HEAD
 uploads/*
 !uploads/.gitkeep
 .env
+=======
+uploads/
+>>>>>>> 440a17bf83a2e3b698f67e58ff2328cc08c6105f
 
 # TypeScript v1 declaration files
 typings/
