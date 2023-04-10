@@ -2,16 +2,14 @@
 'use strict';
 const userModel = require('../models/userModel');
 
-
-const getUserList =  async (req, res) => {
-    try{
+const getUserList = async (req, res) => {
+    try {
         const users = await userModel.getAllUsers();
         res.json(users);
+    } catch (error) {
+        res.status(500).json({message: error.message})
     }
-    catch (error){
-        res.status(500).json({error: 500, message: error.message})
-    }
-}
+};
 
 const getUser = async (req, res) => {
     //convert id value to number
@@ -29,12 +27,28 @@ const getUser = async (req, res) => {
        res.status(404).json({message: 'user not found'});
    }
 }
-
+// const postUser = async (req, res) => {
+//     try {
+//         // add cat details to cats array
+//         const newUser = req.body;
+//         const result = await userModel.insertUser(newUser);
+//         // send correct response if upload successful
+//         res.status(201).json({message: 'new user added'});
+//     }
+//     catch (error){
+//         res.status(400).json({error: 500, message: 'adding new user failed'})
+//     }
+// };
 const postUser = async (req, res) => {
     try {
         // add cat details to cats array
-        const newUser = req.body;
-        const result = await userModel.insertUser(newUser)
+        const newUser =
+            {
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.passwd
+            };
+        const result = await userModel.insertUser(newUser);
         // send correct response if upload successful
         res.status(201).json({message: 'new user added'});
     }
@@ -42,6 +56,7 @@ const postUser = async (req, res) => {
         res.status(400).json({error: 500, message: 'adding new user failed'})
     }
 };
+
 /*const putUser = async (reg, res) => {
     console.log('modify a user', req.body);
     try {
@@ -70,6 +85,6 @@ const checkToken = (req, res) => {
     res.json({user: req.user});
 };
 
-const userController = {getUserList, getUser, postUser,checkToken,} // putUser, deleteUser
+const userController = {getUserList, getUser, postUser, checkToken,} // putUser, deleteUser
 module.exports = userController;
 
