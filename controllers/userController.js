@@ -1,13 +1,15 @@
 // userController
 'use strict';
 const userModel = require('../models/userModel');
+const {validationResult} = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 const getUserList = async (req, res) => {
     try {
         const users = await userModel.getAllUsers();
         res.json(users);
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({message: error.message});
     }
 };
 
@@ -40,22 +42,32 @@ const getUser = async (req, res) => {
 //     }
 // };
 const postUser = async (req, res) => {
-    try {
-        // add cat details to cats array
-        const newUser =
-            {
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.passwd
-            };
-        const result = await userModel.insertUser(newUser);
-        // send correct response if upload successful
-        res.status(201).json({message: 'new user added'});
-    }
-    catch (error){
-        res.status(400).json({error: 500, message: 'adding new user failed'})
+    console.log('Creating a new user: ', req.body);
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.passwd, salt);
+    const newUser = {
+        name: req.body.name,
+        email: req.body.email,
+        password: password,
+        role: 1, // default user role (normal user)
+    };
+    const errors = validationResult(req);
+    console.log('validation errors', errors);
+    if (errors.isEmpty()) {
+        try {
+            const result = await userModel.insertUser(newUser);
+            res.status(201).json({message: 'user created', userId: result});
+        } catch (error) {
+            res.status(500).json({message: error.message});
+        }
+    } else {
+        res.status(400).json({
+            message: 'user creation failed',
+            errors: errors.array(),
+        });
     }
 };
+
 
 /*const putUser = async (reg, res) => {
     console.log('modify a user', req.body);
